@@ -31,7 +31,7 @@ class personX_spgan(BaseImageDataset):
         train = self._process_dir(self.train_dir, relabel=True)
 
         if verbose:
-            print("=> personX loaded")
+            print("=> personX spgan loaded")
             self.print_dataset_statistics(train)
 
         self.train = train
