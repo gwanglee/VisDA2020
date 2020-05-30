@@ -62,6 +62,8 @@ def main():
                         help='For Saving the current Model')
     parser.add_argument('--dataset', default='personX',
                         help='dataset name')
+    parser.add_argument('--model_path', default='',
+                        help='model path for fine tune')
     args = parser.parse_args()
 
     use_cuda = not args.no_cuda and torch.cuda.is_available()
@@ -71,9 +73,16 @@ def main():
 
     source_loader = IterLoader(make_data_loader(batch_size=args.batch_size, dataset=args.dataset, use_cuda=use_cuda, tri_sample=True))
 
-    model = FT_Resnet(num_classes=700)
-    model = model.to(device)
+    model_path = args.model_path
+    model = FT_Resnet(num_classes=700).to(device)
     model = torch.nn.DataParallel(model)
+
+    if len(args.model_path) > 0:
+        try:
+            model.load_state_dict(torch.load(model_path)['IDE']) # for espgan
+        except:
+            model.load_state_dict(torch.load(model_path))
+
     params = []
     for key, value in model.named_parameters():
         if not value.requires_grad:
