@@ -60,6 +60,8 @@ def main():
     parser.add_argument('--weight-decay', type=float, default=5e-4)
     parser.add_argument('--save-model', action='store_true', default=True,
                         help='For Saving the current Model')
+    parser.add_argument('--dataset', default='personX',
+                        help='dataset name')
     args = parser.parse_args()
 
     use_cuda = not args.no_cuda and torch.cuda.is_available()
@@ -67,7 +69,7 @@ def main():
         torch.manual_seed(args.seed)
     device = torch.device("cuda" if use_cuda else "cpu")
 
-    source_loader = IterLoader(make_data_loader(batch_size=args.batch_size, dataset='personX_spgan', use_cuda=use_cuda, tri_sample=True))
+    source_loader = IterLoader(make_data_loader(batch_size=args.batch_size, dataset=args.dataset, use_cuda=use_cuda, tri_sample=True))
 
     model = FT_Resnet(num_classes=700)
     model = model.to(device)
