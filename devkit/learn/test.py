@@ -62,15 +62,15 @@ def main():
                         help='random seed (default: 1)')
     parser.add_argument('--model_path', type=str, default='./checkpoints/personX/79.pt',
                         help='saved model path')
+    parser.add_argument('--dataset', type=str, default='target_validation',
+                        help='dataset to test')
     args = parser.parse_args()
 
     use_cuda = not args.no_cuda and torch.cuda.is_available()
     torch.manual_seed(args.seed)
     device = torch.device("cuda" if use_cuda else "cpu")
 
-    tq, tg = make_data_loader_test(batch_size=args.batch_size, dataset='submit_val', use_cuda=use_cuda)
-
-    query_loader, gallery_loader = make_data_loader_test(batch_size=args.batch_size, dataset='target_validation', use_cuda=use_cuda)
+    query_loader, gallery_loader = make_data_loader_test(batch_size=args.batch_size, dataset=args.dataset, use_cuda=use_cuda)
 
     model_path = args.model_path
     model = FT_Resnet(num_classes=700).to(device)
