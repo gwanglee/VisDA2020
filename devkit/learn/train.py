@@ -90,6 +90,7 @@ def main():
             if not os.path.exists(save_rb_path):
                 os.makedirs(save_rb_path)
             torch.save(model.state_dict(), save_rb_path + str(epoch) + '.pt')
+            print('model saved >> ', save_rb_path + str(epoch) + '.pt')
 
 if __name__ == '__main__':
     main()
