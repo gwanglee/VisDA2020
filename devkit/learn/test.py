@@ -95,8 +95,8 @@ def main():
     2) each line of indices is in ascending order of their distance to the query.
     For more details, please check https://github.com/Simon4Yan/VisDA2020/tree/master/submit_val
     '''
-    # indices = np.argsort(q_g_dist, axis=1)
-    # np.savetxt("answer.txt", indices[:, :100], fmt="%04d")
+    indices = np.argsort(q_g_dist, axis=1)
+    np.savetxt("answer.txt", indices[:, :100], fmt="%04d")
 
 if __name__ == '__main__':
     main()
