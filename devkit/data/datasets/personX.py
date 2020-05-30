@@ -13,7 +13,7 @@ from .bases import BaseImageDataset
 
 class personX(BaseImageDataset):
     """
-    personX (source domain): only consains training samples
+    personX (source domain): only contains training samples
     Dataset statistics:
     # identities: 700
     # images: 20280 (train)
