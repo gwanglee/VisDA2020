@@ -8,6 +8,7 @@ from .personX import personX
 from .personX_spgan import personX_spgan
 from .target_validation import target_validation
 from .target_training import target_training
+from .submit_val import submit_validation
 from .dataset_loader import ImageDataset
 
 __factory = {
@@ -15,6 +16,7 @@ __factory = {
     'personX_spgan': personX_spgan,
     'target_validation': target_validation,
     'target_training': target_training,
+    'submit_val': submit_validation,
 }
 
 

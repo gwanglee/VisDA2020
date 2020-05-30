@@ -68,6 +68,8 @@ def main():
     torch.manual_seed(args.seed)
     device = torch.device("cuda" if use_cuda else "cpu")
 
+    tq, tg = make_data_loader_test(batch_size=args.batch_size, dataset='submit_val', use_cuda=use_cuda)
+
     query_loader, gallery_loader = make_data_loader_test(batch_size=args.batch_size, dataset='target_validation', use_cuda=use_cuda)
 
     model_path = args.model_path
