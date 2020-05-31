@@ -19,11 +19,12 @@ from data.build import make_data_loader
 from data import IterLoader
 
 
-tri_criteria= TripletLoss(margin=0.5)
+tri_criteria= TripletLoss(margin=0.3)
 cls_criteria = CrossEntropyLabelSmooth(num_classes=700)
 
 def train(args, model, device, train_loader, optimizer, epoch):
     model.train()
+
     for i in range(args.iters):
         data, target = train_loader.next()
         data, target = data.to(device), target.to(device)
@@ -45,9 +46,9 @@ def main():
     parser = argparse.ArgumentParser(description='Train with cross-entropy loss')
     parser.add_argument('--batch-size', type=int, default=64, metavar='N',
                         help='input batch size for training (default: 64)')
-    parser.add_argument('--epochs', type=int, default=60, metavar='N',
+    parser.add_argument('--epochs', type=int, default=120, metavar='N',
                         help='number of epochs to learn (default: 14)')
-    parser.add_argument('--iters', type=int, default=150)
+    parser.add_argument('--iters', type=int, default=300)
     parser.add_argument('--lr', type=float, default=0.00035, metavar='LR',
                         help='learning rate (default: 0.00035)')
     parser.add_argument('--gamma', type=float, default=0.1, metavar='M',
@@ -92,7 +93,8 @@ def main():
             continue
         params += [{"params": [value], "lr": args.lr, "weight_decay": args.weight_decay}]
     optimizer = torch.optim.Adam(params)
-    scheduler = WarmupMultiStepLR(optimizer, milestones=[30, 50], gamma=0.1, warmup_factor=0.01,
+
+    scheduler = WarmupMultiStepLR(optimizer, milestones=[40, 70], gamma=0.1, warmup_factor=0.01,
                                      warmup_iters=10)
 
     from datetime import datetime

@@ -46,8 +46,8 @@ class FT_Resnet(nn.Module):
         else:
             model = models.resnet18(pretrained=pretrained)
 
-        model.layer4[0].conv2.stride = (1,1)
-        model.layer4[0].downsample[0].stride = (1,1)
+        model.layer4[0].conv2.stride = (1, 1)
+        model.layer4[0].downsample[0].stride = (1, 1)
 
         self.features = nn.Sequential(
             model.conv1,
