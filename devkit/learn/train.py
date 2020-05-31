@@ -95,13 +95,18 @@ def main():
     scheduler = WarmupMultiStepLR(optimizer, milestones=[30, 50], gamma=0.1, warmup_factor=0.01,
                                      warmup_iters=10)
 
+    from datetime import datetime
+    now = datetime.now().strftime('%m%d_%HHM')
+
+    savepath = '{}_{}'.format(args.backbone, now)
+
     for epoch in trange(args.epochs):
         source_loader.new_epoch()
         train(args, model, device, source_loader, optimizer, epoch)
         scheduler.step()
 
         if args.save_model and (epoch+1) % 10 == 0:
-            save_rb_path = './checkpoints/personX/'
+            save_rb_path = './checkpoints/{}/'.format(savepath)
             if not os.path.exists(save_rb_path):
                 os.makedirs(save_rb_path)
             torch.save(model.state_dict(), save_rb_path + str(epoch) + '.pt')
