@@ -110,6 +110,7 @@ class TripletLoss(object):
             loss = self.ranking_loss(dist_an - dist_ap, y)
         return loss
 
+
 class CrossEntropyLabelSmooth(nn.Module):
     """Cross entropy loss with label smoothing regularizer.
 
@@ -138,4 +139,5 @@ class CrossEntropyLabelSmooth(nn.Module):
         targets = torch.zeros_like(log_probs).scatter_(1, targets.unsqueeze(1), 1)
         targets = (1 - self.epsilon) * targets + self.epsilon / self.num_classes
         loss = (- targets * log_probs).mean(0).sum()
+
         return loss

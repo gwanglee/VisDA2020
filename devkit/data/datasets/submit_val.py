@@ -41,7 +41,7 @@ class submit_validation(BaseImageDataset):
         self.gallery = self._process_dir(self.gallery_dir, self.path_index_val_gallery, relabel=False)
 
         if verbose:
-            print("=> target_validation loaded")
+            print("=> submit_validation loaded")
             self.print_dataset_statistics_validation(self.query, self.gallery)
 
     def _check_before_run(self):

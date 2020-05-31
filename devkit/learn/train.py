@@ -21,6 +21,7 @@ from data import IterLoader
 
 tri_criteria= TripletLoss(margin=0.5)
 cls_criteria = CrossEntropyLabelSmooth(num_classes=700)
+
 def train(args, model, device, train_loader, optimizer, epoch):
     model.train()
     for i in range(args.iters):
@@ -62,8 +63,10 @@ def main():
                         help='For Saving the current Model')
     parser.add_argument('--dataset', default='personX',
                         help='dataset name')
+    parser.add_argument('--backbone', default='resnet50',
+                        hel='backbone entwork')
     parser.add_argument('--model_path', default='',
-                        help='model path for fine tune')
+                        help='model path for finetune')
     args = parser.parse_args()
 
     use_cuda = not args.no_cuda and torch.cuda.is_available()
@@ -74,7 +77,7 @@ def main():
     source_loader = IterLoader(make_data_loader(batch_size=args.batch_size, dataset=args.dataset, use_cuda=use_cuda, tri_sample=True))
 
     model_path = args.model_path
-    model = FT_Resnet(num_classes=700).to(device)
+    model = FT_Resnet(mode=args.backbone, num_classes=700).to(device)
     model = torch.nn.DataParallel(model)
 
     if len(args.model_path) > 0:
@@ -96,6 +99,7 @@ def main():
         source_loader.new_epoch()
         train(args, model, device, source_loader, optimizer, epoch)
         scheduler.step()
+
         if args.save_model and (epoch+1) % 10 == 0:
             save_rb_path = './checkpoints/personX/'
             if not os.path.exists(save_rb_path):
