@@ -64,7 +64,7 @@ def main():
     parser.add_argument('--dataset', default='personX',
                         help='dataset name')
     parser.add_argument('--backbone', default='resnet50',
-                        hel='backbone entwork')
+                        help='backbone entwork')
     parser.add_argument('--model_path', default='',
                         help='model path for finetune')
     args = parser.parse_args()
