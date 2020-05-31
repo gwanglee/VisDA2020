@@ -64,6 +64,8 @@ def main():
                         help='saved model path')
     parser.add_argument('--dataset', type=str, default='target_validation',
                         help='dataset to test')
+    parser.add_argument('--backbone', default='resnet50',
+                        help='backbone network')
     args = parser.parse_args()
 
     use_cuda = not args.no_cuda and torch.cuda.is_available()
@@ -73,7 +75,7 @@ def main():
     query_loader, gallery_loader = make_data_loader_test(batch_size=args.batch_size, dataset=args.dataset, use_cuda=use_cuda)
 
     model_path = args.model_path
-    model = FT_Resnet(num_classes=700).to(device)
+    model = FT_Resnet(mode=args.backbone, num_classes=700).to(device)
     model = torch.nn.DataParallel(model)
     try:
         model.load_state_dict(torch.load(model_path)['IDE']) # for espgan
